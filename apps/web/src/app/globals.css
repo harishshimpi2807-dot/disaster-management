@@ -1,21 +1,32 @@
 :root {
-  --bg: #11140f;
-  --bg-raised: #171b14;
-  --panel: #1c2119;
-  --panel-2: #22281e;
-  --line: #30382c;
-  --line-strong: #4a5544;
-  --text: #eceee6;
-  --muted: #9aa392;
-  --faint: #6e7668;
-  --critical: #d46a48;
-  --warn: #c9a227;
-  --ok: #7a9a6e;
-  --recover: #4a9b8c;
-  --info: #7d93a3;
-  --accent: #cbb992;
-  --focus: #e4d6a8;
-  --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  /* Core surfaces — government-grade dark navy (80% neutral) */
+  --bg: #0B1220;          /* PRIMARY BACKGROUND — Deep Navy */
+  --bg-raised: #111827;   /* SECONDARY BACKGROUND — Slate Navy */
+  --panel: #182230;       /* SURFACE / CARD — Dark Slate */
+  --panel-2: #1F2937;     /* ELEVATED SURFACE — Elevated Slate */
+
+  /* Typography */
+  --text: #F3F4F6;        /* PRIMARY TEXT — Off White */
+  --muted: #9CA3AF;       /* SECONDARY TEXT — Cool Gray */
+  --faint: #6B7280;       /* MUTED TEXT */
+
+  /* Borders — restrained navy (do not over-border) */
+  --line: #273449;        /* BORDER — Subtle Navy Border */
+  --line-strong: #2F425A; /* stronger divider / ghost borders */
+
+  /* Semantic status / risk (5% alert, 15% accent) */
+  --critical: #EF4444;    /* CRITICAL — Emergency Red (severe damage, high/critical risk) */
+  --warn: #F59E0B;        /* WARNING — Amber (medium risk, moderate damage) */
+  --ok: #22C55E;          /* VERIFIED / LOW — Recovery Green */
+  --recover: #3B82F6;     /* IN PROGRESS / MONITORED — Signal Blue */
+  --info: #06B6D4;        /* INFORMATION — Cyan */
+  --orange: #F97316;      /* Orange — potential duplicates, high-risk emphasis */
+
+  /* Operational accents */
+  --accent: #3B82F6;      /* PRIMARY ACCENT — Signal Blue (nav, buttons, charts) */
+  --focus: #3B82F6;       /* focus ring = Signal Blue */
+
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
   --font: "IBM Plex Sans", "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
   --radius: 2px;
@@ -111,12 +122,14 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .pill.info::before { background: var(--info); }
 
 .btn {
-  background: var(--accent); color: #1a1810; border: 0; padding: 9px 14px; cursor: pointer; font-weight: 600;
+  background: var(--accent); color: #F3F4F6; border: 0; padding: 9px 14px; cursor: pointer; font-weight: 600;
 }
-.btn:hover { filter: brightness(1.05); }
+.btn:hover { filter: brightness(1.08); }
 .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line-strong); }
 .btn.danger { background: transparent; color: var(--critical); border: 1px solid var(--critical); }
+.btn.warn { background: transparent; color: var(--warn); border: 1px solid var(--warn); }
+.btn.success { background: transparent; color: var(--ok); border: 1px solid var(--ok); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 label.field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--muted); flex: 1; min-width: 160px; }
@@ -147,10 +160,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .login-visual {
   padding: 48px 56px; border-right: 1px solid var(--line);
   display: flex; flex-direction: column; justify-content: space-between;
-  background:
-    linear-gradient(180deg, rgba(17,20,15,0.2), rgba(17,20,15,0.92)),
-    repeating-linear-gradient(0deg, transparent 0 27px, rgba(203,185,146,0.04) 27px 28px),
-    repeating-linear-gradient(90deg, transparent 0 27px, rgba(203,185,146,0.04) 27px 28px);
+    background:
+    linear-gradient(180deg, rgba(11,18,32,0.25), rgba(11,18,32,0.95)),
+    repeating-linear-gradient(0deg, transparent 0 27px, rgba(59,130,246,0.05) 27px 28px),
+    repeating-linear-gradient(90deg, transparent 0 27px, rgba(59,130,246,0.05) 27px 28px);
 }
 .login-visual h1 { font-size: 2.2rem; max-width: 16ch; }
 .login-form { padding: 48px 44px; display: flex; flex-direction: column; justify-content: center; max-width: 460px; }

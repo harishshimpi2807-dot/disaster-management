@@ -7,15 +7,15 @@ import { api } from "@/lib/api";
 import { labelize } from "@/lib/format";
 
 const COLORS: Record<string, string> = {
-  disasters: "#cbb992",
-  damage: "#d46a48",
-  claims: "#c9a227",
-  fund_requests: "#7d93a3",
-  allocations: "#8aa0ae",
-  anomalies: "#e07a5f",
-  recovery: "#4a9b8c",
-  inspections: "#7a9a6e",
-  duplicates: "#c45c3a",
+  disasters: "#3B82F6",      // DISASTER BOUNDARY — Signal Blue (blue outline)
+  damage: "#F59E0B",         // MODERATE DAMAGE — Amber (severe=red via status badges; red reserved for critical)
+  claims: "#3B82F6",         // Claims — Signal Blue
+  fund_requests: "#06B6D4",  // Operational — Cyan
+  allocations: "#3B82F6",    // Infrastructure / funds — Signal Blue
+  anomalies: "#F59E0B",      // ANOMALY — Amber (medium/high risk; critical shown red via status)
+  recovery: "#22C55E",       // RECOVERED AREA — Recovery Green
+  inspections: "#3B82F6",    // FIELD INSPECTIONS — Signal Blue
+  duplicates: "#F97316",     // POTENTIAL DUPLICATE — Orange
 };
 
 type Layers = Record<string, GeoJSON.FeatureCollection | { open_count?: number; features?: GeoJSON.Feature[] }>;
@@ -206,15 +206,15 @@ function paint(map: maplibregl.Map, layers: Layers, on: Record<string, boolean>,
         source: src,
         filter: ["has", "point_count"],
         layout: { "text-field": "{point_count_abbreviated}", "text-size": 11 },
-        paint: { "text-color": "#11140f" },
+              paint: { "text-color": "#0B1220" },
       });
-    }
+        }
     map.addLayer({
       id: `pt-${key}`,
       type: "circle",
       source: src,
-      filter: cluster ? ["all", ["==", "$type", "Point"], ["!", ["has", "point_count"]]] : ["==", "$type", "Point"],
-      paint: { "circle-color": COLORS[key], "circle-radius": 6, "circle-stroke-width": 1, "circle-stroke-color": "#11140f" },
+      filter: cluster ? ["all", ["==", "$type", "Point"], ["!has", "point_count"]] : ["==", "$type", "Point"],
+      paint: { "circle-color": COLORS[key], "circle-radius": 6, "circle-stroke-width": 1, "circle-stroke-color": "#0B1220" },
     });
     const pick = (e: maplibregl.MapLayerMouseEvent) => {
       if (e.features?.[0]) setSel(e.features[0].properties);

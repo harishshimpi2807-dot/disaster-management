@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Empty, PageHead } from "@/components/ui";
 import { api } from "@/lib/api";
-import { money } from "@/lib/format";
+import { money, statusTone } from "@/lib/format";
 
 type Overview = {
   total_disasters: number;
@@ -101,11 +101,11 @@ export default function OverviewPage() {
         <div>
           <div className="panel">
             <h2>Anomaly risk mix</h2>
-            <BarMap data={data.anomaly_by_level} />
+                        <BarMap data={data.anomaly_by_level} tone />
           </div>
           <div className="panel">
             <h2>Recovery by category</h2>
-            <BarMap data={data.recovery_by_category} suffix="%" />
+                        <BarMap data={data.recovery_by_category} suffix="%" color="var(--ok)" />
           </div>
         </div>
       </div>
@@ -113,10 +113,15 @@ export default function OverviewPage() {
   );
 }
 
-function BarMap({ data, suffix = "" }: { data: Record<string, number>; suffix?: string }) {
+function BarMap({ data, suffix = "", color, tone }: { data: Record<string, number>; suffix?: string; color?: string; tone?: boolean }) {
   const max = Math.max(1, ...Object.values(data));
   const entries = Object.entries(data);
   if (!entries.length) return <Empty title="Nothing to chart" body="Records will appear as cases move through the workflow." />;
+  const barColor = (k: string) => {
+    if (color) return color;
+    if (tone) return TONE_COLOR[statusTone(k)] ?? "var(--accent)";
+    return "var(--accent)";
+  };
   return (
     <div style={{ display: "grid", gap: 10, marginTop: 12 }}>
       {entries.map(([k, v]) => (
@@ -129,10 +134,18 @@ function BarMap({ data, suffix = "" }: { data: Record<string, number>; suffix?: 
             </span>
           </div>
           <div style={{ height: 8, background: "var(--bg)", marginTop: 4 }}>
-            <div style={{ width: `${(v / max) * 100}%`, height: "100%", background: "var(--accent)" }} />
+            <div style={{ width: `${(v / max) * 100}%`, height: "100%", background: barColor(k) }} />
           </div>
         </div>
       ))}
     </div>
   );
 }
+
+const TONE_COLOR: Record<string, string> = {
+  critical: "var(--critical)",
+  warn: "var(--warn)",
+  ok: "var(--ok)",
+  recover: "var(--recover)",
+  info: "var(--info)",
+};

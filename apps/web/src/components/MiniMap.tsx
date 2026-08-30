@@ -31,9 +31,9 @@ export default function MiniMap({ geojson, center = [73.52, 17.53], zoom = 8, he
     map.on("load", () => {
       if (!geojson) return;
       map.addSource("focus", { type: "geojson", data: geojson });
-      map.addLayer({ id: "focus-fill", type: "fill", source: "focus", filter: ["==", "$type", "Polygon"], paint: { "fill-color": "#cbb992", "fill-opacity": 0.28 } });
-      map.addLayer({ id: "focus-line", type: "line", source: "focus", paint: { "line-color": "#cbb992", "line-width": 2 } });
-      map.addLayer({ id: "focus-pt", type: "circle", source: "focus", filter: ["==", "$type", "Point"], paint: { "circle-radius": 6, "circle-color": "#4a9b8c" } });
+            map.addLayer({ id: "focus-fill", type: "fill", source: "focus", filter: ["==", "$type", "Polygon"], paint: { "fill-color": "#3B82F6", "fill-opacity": 0.28 } });
+      map.addLayer({ id: "focus-line", type: "line", source: "focus", paint: { "line-color": "#3B82F6", "line-width": 2 } });
+      map.addLayer({ id: "focus-pt", type: "circle", source: "focus", filter: ["==", "$type", "Point"], paint: { "circle-radius": 6, "circle-color": "#06B6D4" } });
     });
     return () => map.remove();
   }, [geojson, center, zoom]);
