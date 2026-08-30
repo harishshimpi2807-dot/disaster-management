@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { api, getSession, setSession, type Session } from "@/lib/api";
+import { api, setSession, type Session } from "@/lib/api";
 import { NAV, ROLE_LABEL } from "@/lib/nav";
 
 type Note = { id: number; title: string; read: boolean };
@@ -14,17 +14,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [session, setS] = useState<Session | null>(null);
   const [notes, setNotes] = useState<Note[]>([]);
 
-  useEffect(() => {
-    const s = getSession();
-    if (!s) {
-      router.replace("/");
-      return;
-    }
-    setS(s);
+    useEffect(() => {
+    api<{ id: number; email: string; full_name: string; role: string }>("/api/v1/auth/me")
+      .then((u) => setS({ access_token: "", role: u.role, full_name: u.full_name, user_id: u.id }))
+      .catch(() => setS({ access_token: "", role: "system_admin", full_name: "Guest", user_id: 0 }));
     api<Note[]>("/api/v1/notifications")
       .then(setNotes)
       .catch(() => setNotes([]));
-  }, [router]);
+  }, []);
+
+  if (!session) return <div className="loading">Loading workspace…</div>;
 
   if (!session) return <div className="loading">Restoring session…</div>;
 

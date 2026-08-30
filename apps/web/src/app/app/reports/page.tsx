@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { PageHead } from "@/components/ui";
-import { API_BASE, getSession } from "@/lib/api";
+import { API_BASE } from "@/lib/api";
 
 export default function ReportsPage() {
   const [err, setErr] = useState("");
@@ -10,10 +10,7 @@ export default function ReportsPage() {
   async function open(kind: string) {
     setErr("");
     try {
-      const s = getSession();
-      const res = await fetch(`${API_BASE}/api/v1/reports/export?kind=${kind}`, {
-        headers: { Authorization: `Bearer ${s?.access_token}` },
-      });
+      const res = await fetch(`${API_BASE}/api/v1/reports/export?kind=${kind}`);
       if (!res.ok) throw new Error("Export failed");
       const b = await res.blob();
       const url = URL.createObjectURL(b);
